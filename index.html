@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>To-Do Web App</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Contact & To-Do App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>📝 To-Do List</h1>
-
-    <div class="input-section">
-      <input type="text" id="taskInput" placeholder="Enter a new task..." />
-      <input type="datetime-local" id="taskDateTime" />
-      <button onclick="addTask()">Add Task</button>
+  <header class="header">
+    <div class="container">
+      <h1>My Web App</h1>
+      <nav class="nav">
+        <a href="#contact">Contact</a>
+        <a href="#todo">To-Do List</a>
+      </nav>
     </div>
+  </header>
 
-    <ul id="taskList"></ul>
-  </div>
+  <main class="container">
+    <!-- Contact Form -->
+    <section id="contact" class="contact-section">
+      <h2>Contact Us</h2>
+      <form id="contactForm" novalidate>
+        <label for="name">Name *</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+
+        <button type="submit">Submit</button>
+        <p id="formMsg" class="form-msg"></p>
+      </form>
+    </section>
+
+    <!-- To-Do List -->
+    <section id="todo" class="todo-section">
+      <h2>Dynamic To-Do List</h2>
+      <div class="todo-container">
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button id="addTaskBtn">Add Task</button>
+      </div>
+      <ul id="taskList"></ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 My Web App</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

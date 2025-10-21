@@ -1,65 +1,60 @@
-const taskInput = document.getElementById("taskInput");
-const taskDateTime = document.getElementById("taskDateTime");
-const taskList = document.getElementById("taskList");
+/* ======== Contact Form Validation ======== */
+const contactForm = document.getElementById('contactForm');
+const formMsg = document.getElementById('formMsg');
 
-// Add new task
-function addTask() {
-  const taskText = taskInput.value.trim();
-  const dateTime = taskDateTime.value;
+contactForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = contactForm.name.value.trim();
+  const email = contactForm.email.value.trim();
+  const message = contactForm.message.value.trim();
 
-  if (taskText === "") {
-    alert("Please enter a task!");
+  if(name === '' || email === ''){
+    formMsg.textContent = 'Name and Email are required.';
+    formMsg.style.color = 'red';
     return;
   }
 
-  const li = document.createElement("li");
-  const taskInfo = document.createElement("div");
-  taskInfo.classList.add("task-info");
-
-  const taskName = document.createElement("span");
-  taskName.textContent = taskText;
-
-  const taskTime = document.createElement("small");
-  taskTime.textContent = dateTime ? `⏰ ${new Date(dateTime).toLocaleString()}` : "";
-
-  taskInfo.appendChild(taskName);
-  taskInfo.appendChild(taskTime);
-
-  const taskActions = document.createElement("div");
-  taskActions.classList.add("task-actions");
-
-  taskActions.innerHTML = `
-    <button class="done" onclick="markDone(this)">✔</button>
-    <button class="edit" onclick="editTask(this)">✏️</button>
-    <button class="delete" onclick="deleteTask(this)">🗑️</button>
-  `;
-
-  li.appendChild(taskInfo);
-  li.appendChild(taskActions);
-  taskList.appendChild(li);
-
-  taskInput.value = "";
-  taskDateTime.value = "";
-}
-
-// Mark as completed
-function markDone(btn) {
-  const li = btn.closest("li");
-  li.classList.toggle("completed");
-}
-
-// Edit task
-function editTask(btn) {
-  const li = btn.closest("li");
-  const textSpan = li.querySelector(".task-info span");
-  const newText = prompt("Edit your task:", textSpan.textContent);
-  if (newText !== null && newText.trim() !== "") {
-    textSpan.textContent = newText.trim();
+  // simple email regex validation
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if(!emailPattern.test(email)){
+    formMsg.textContent = 'Please enter a valid email.';
+    formMsg.style.color = 'red';
+    return;
   }
-}
 
-// Delete task
-function deleteTask(btn) {
-  const li = btn.closest("li");
-  li.remove();
+  formMsg.textContent = 'Form submitted successfully!';
+  formMsg.style.color = 'green';
+  contactForm.reset();
+});
+
+/* ======== Dynamic To-Do List ======== */
+const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const taskList = document.getElementById('taskList');
+
+addTaskBtn.addEventListener('click', addTask);
+
+function addTask(){
+  const taskText = taskInput.value.trim();
+  if(taskText === '') return;
+
+  const li = document.createElement('li');
+  li.textContent = taskText;
+
+  const delBtn = document.createElement('button');
+  delBtn.textContent = 'Delete';
+  delBtn.style.background = '#dc3545';
+  delBtn.style.color = 'white';
+  delBtn.style.border = 'none';
+  delBtn.style.borderRadius = '5px';
+  delBtn.style.cursor = 'pointer';
+  delBtn.style.marginLeft = '10px';
+
+  delBtn.addEventListener('click', ()=>{
+    li.remove();
+  });
+
+  li.appendChild(delBtn);
+  taskList.appendChild(li);
+  taskInput.value = '';
 }
